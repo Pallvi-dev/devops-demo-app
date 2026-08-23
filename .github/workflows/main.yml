@@ -14,4 +14,6 @@ jobs:
 
       - name: Validate application
         run: test -f index.html
-        
+
+      - name: Deploy application
+        run: echo "Deploying application..."
