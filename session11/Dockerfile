@@ -6,7 +6,7 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY web-app.py .
+COPY web-app-broken.py .
 
 EXPOSE 5000
 
