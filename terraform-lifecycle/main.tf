@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-provider "local" {}
+provider "local" {
 
 resource "local_file" "environment_info" {
   filename = "${path.module}/${var.environment_name}.txt"
@@ -16,5 +16,5 @@ resource "local_file" "environment_info" {
     Environment: ${var.environment_name}
     Owner: ${var.owner}
     Purpose: ${var.purpose}
-   EOT
+   
 }
