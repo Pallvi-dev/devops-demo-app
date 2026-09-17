@@ -1,0 +1,50 @@
+name: End-toEnd-Deployment
+
+on:
+  push:
+    paths:
+      - 'session16/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ghcr.io/pallvi-dev/session16-app:latest \
+            ./session16
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/pallvi-dev/session16-app:latest
+
+      - name: Deploy container
+        run: |
+          docker pull ghcr.io/pallvi-dev/session16-app:latest
+          docker rm -f session16-app 2>/dev/null || true
+          docker run -d \
+            --name session16-app \
+            -p 8080:80 \
+            ghcr.io/pallvi-dev/session16-app:latest
+
+      - name: Verify deployment
+        run: |
+          sleep 5
+          curl --fail http://localhost:8080
