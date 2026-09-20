@@ -28,7 +28,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t ghcr.io/pallvi-dev/End-to-End-Deployment-app:latest \
+            -t ghcr.io/pallvi-dev/End-to-End-Deployment-app:v1 \
             ./End-to-End-Deployment
 
       - name: Push Docker image
