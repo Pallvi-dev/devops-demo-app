@@ -3,7 +3,7 @@ name: End-toEnd-Deployment
 on:
   push:
     paths:
-      - 'session16/**'
+      - 'End-to-End-Deployment/**'
       - '.github/workflows/deploy.yml'
 
 jobs:
@@ -28,21 +28,21 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t ghcr.io/pallvi-dev/session16-app:latest \
-            ./session16
+            -t ghcr.io/pallvi-dev/End-to-End-Deployment-app:latest \
+            ./End-to-End-Deployment
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/pallvi-dev/session16-app:latest
+          docker push ghcr.io/pallvi-dev/End-to-End-Deployment-app:latest
 
       - name: Deploy container
         run: |
-          docker pull ghcr.io/pallvi-dev/session16-app:latest
-          docker rm -f session16-app 2>/dev/null || true
+          docker pull ghcr.io/pallvi-dev/End-to-End-Deployment-app:latest
+          docker rm -f End-to-End-Deployment-app 2>/dev/null || true
           docker run -d \
-            --name session16-app \
+            --name End-to-End-Deployment-app \
             -p 8080:80 \
-            ghcr.io/pallvi-dev/session16-app:latest
+            ghcr.io/pallvi-dev/End-to-End-Deployment-app:latest
 
       - name: Verify deployment
         run: |
